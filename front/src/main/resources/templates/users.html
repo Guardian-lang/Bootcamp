@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+</head>
+<body>
+<form th:action="@{/user/find}" method="post">
+    <input type="email" name="email"/>
+    <p th:text="${error}" style="color: red"></p>
+    <button type="submit">Find</button>
+    <h2 th:text="${user.firstname}">First Name</h2>
+    <h2 th:text="${user.lastname}">Last Name</h2>
+    <p th:text="${user.email}">Email</p>
+</form>
+<div th:each="user : ${userList}">
+    <table>
+        <thead>
+        <tr>
+            <th><span th:text="First Name"></span></th>
+            <th><span th:text="Last Name"></span></th>
+            <th><span th:text="Email"></span></th>
+            <th><span th:text="Role"></span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${user.firstname}" th:if="${user.firstname != null}"></td>
+            <td th:text="${user.lastname}" th:if="${user.lastname != null}"></td>
+            <td th:text="${user.email}" th:if="${user.email != null}"></td>
+            <td th:text="${user.role}" th:if="${user.role != null}"></td>
+            <td>
+                <a th:href="@{/users/{userId}/edit(userId=${user.id})}">Edit User</a>
+            </td>
+            <td>
+                <form th:action="@{/users/{userId}/delete(userId=${user.id})}" method="post">
+                    <button type="submit" th:text="Delete"></button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<a th:href="@{/users/add}">Add User</a>
+</html>
